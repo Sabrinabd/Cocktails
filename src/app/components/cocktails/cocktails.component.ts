@@ -6,8 +6,8 @@ import { CocktailDetailsComponent } from './components/cocktail-details.componen
   selector: 'app-cocktails',
   imports: [CocktailsListComponent, CocktailDetailsComponent],
   template: `
-    <app-cocktails-list class="flex-auto card" />
-    <app-cocktail-details class="flex-auto" />
+    <app-cocktails-list class="w-50 card" />
+    <app-cocktail-details class="w-50 card" />
   `,
   styles: `
     :host {
