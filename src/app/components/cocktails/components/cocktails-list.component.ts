@@ -4,12 +4,28 @@ import { Component } from '@angular/core';
   selector: 'app-cocktails-list',
   imports: [],
   template: `
-    <p>
-      cocktails-list works!
-    </p>
+    <h2 class="mb-20">Liste des cocktails</h2>
+    <ul class="mb-20">
+      <li class=" text-primary active-item px-12 py-6">
+        <div>
+          <h3>Mojito</h3>
+        </div>
+      </li>
+      <li class="px-12 py-6">
+        <div>
+          <h3>Mojito</h3>
+        </div>
+      </li>
+      <li class="px-12 py-6">
+        <div>
+          <h3>Mojito</h3>
+        </div>
+      </li>
+    </ul>
+    <button class="btn btn-primary">Ajouter un cocktail</button>
   `,
-  styles: ``
+  styles: `
+  
+  `,
 })
-export class CocktailsListComponent {
-
-}
+export class CocktailsListComponent {}
