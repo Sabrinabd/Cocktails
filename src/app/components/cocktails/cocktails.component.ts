@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { CocktailsListComponent } from './components/cocktails-list.component';
 import { CocktailDetailsComponent } from './components/cocktail-details.component';
 import { Cocktail } from 'app/partage/interfaces';
@@ -12,21 +12,27 @@ import { cocktails } from 'app/partage/interfaces/data';
       (selectCocktail)="selectCocktail($event)"
       [selectedCocktailName]="selectedCocktailName()"
       [cocktails]="cocktails()"
-      class="w-50 card"
+      class="w-50 xs-w-100 card"
     />
-    <app-cocktail-details class="w-50 card" />
+    <app-cocktail-details
+      [cocktail]="selectedCocktail()"
+      class="w-50 xs-w-100 card"
+    />
   `,
   styles: `
     :host {
       display: flex;
-      gap: 24px;
+      gap:24px;
       padding: 24px;
+      @media screen and (max-width: 820px) {
+        flex-direction: column;
+      }
     }
   `,
 })
 export class CocktailsComponent {
   cocktails = signal<Cocktail[]>(cocktails);
-  selectedCocktail = signal(this.cocktails()[0]);
+  selectedCocktail = signal<Cocktail>(this.cocktails()[0]);
   selectedCocktailName = computed(() => this.selectedCocktail().name);
 
   selectCocktail(cocktailName: string) {

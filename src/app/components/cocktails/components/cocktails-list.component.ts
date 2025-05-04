@@ -1,14 +1,22 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Cocktail } from 'app/partage/interfaces';
 
 @Component({
   selector: 'app-cocktails-list',
-  imports: [],
+  imports: [FormsModule],
   template: `
     <h2 class="mb-20">Liste des cocktails</h2>
+
+    <input
+      [(ngModel)]="filter"
+      type="text"
+      class=" mb-20 w-100"
+      placeholder="Rechercher un cocktail"
+    />
     <ul class="mb-20">
-      @for (cocktail of cocktails(); track cocktail.name) { @let active =
-      cocktail.name === selectedCocktailName();
+      @for (cocktail of filteredCocktails(); track cocktail.name) { @let active
+      = cocktail.name === selectedCocktailName();
       <li
         [class.active-item]="active"
         [class.text-primary]="active"
@@ -30,7 +38,13 @@ import { Cocktail } from 'app/partage/interfaces';
   `,
 })
 export class CocktailsListComponent {
+  filter = signal('');
   cocktails = input<Cocktail[]>();
+  filteredCocktails = computed(() =>
+    this.cocktails()?.filter(({ name }) =>
+      name.toLowerCase().includes(this.filter().toLowerCase())
+    )
+  );
   selectedCocktailName = input.required();
   selectCocktail = output<string>();
 }

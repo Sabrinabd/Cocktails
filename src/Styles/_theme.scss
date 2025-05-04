@@ -22,11 +22,6 @@ body {
   background-color: var(--dark);
 }
 
-.btn-danger {
-}
-.btn-success {
-}
-
 .card {
   padding: 24px;
   border-radius: 24px;
@@ -43,4 +38,15 @@ body {
 }
 .radius {
   border-radius: var(--radius);
+}
+.description {
+  font-size: 0.875rem;
+  color: #6b7280; /* gris moyen (équivalent à Tailwind text-gray-500) */
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+input {
+  border: var(--border);
+  border-radius: 6px;
+  padding: 12px;
 }

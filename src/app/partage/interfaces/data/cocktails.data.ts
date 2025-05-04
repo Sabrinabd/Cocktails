@@ -25,7 +25,7 @@ export const cocktails: Cocktail[] = [
   },
   {
     imageUrl:
-      'https://www.cocktail.fr/wp-content/uploads/2017/05/cocktail.fr-54042-1-1013x675.jpg.webp',
+      'https://www.villaschweppes.com/app/uploads/2022/09/372424-le-cocktail-pina-colada-sans-alcool-orig-2.jpeg',
     name: 'Piña Colada',
     description:
       'La Piña Colada, célèbre boisson des Caraïbes, marie à merveille le jus d’ananas, la crème de coco et le rhum pour une explosion de douceur et d’évasion à chaque gorgée.',
@@ -33,7 +33,7 @@ export const cocktails: Cocktail[] = [
   },
   {
     imageUrl:
-      'https://www.cocktail.fr/wp-content/uploads/2017/05/cosmopolitan.jpg.webp',
+      'https://www.1001cocktails.com/wp-content/uploads/1001cocktails/2023/03/80274_origin-scaled-2048x1366.jpg',
     name: 'Cosmopolitan',
     description:
       'Chic et fruité, le Cosmopolitan associe la vodka, le triple sec, le jus de cranberry et le citron vert pour une boisson élégante et rafraîchissante, parfaite pour les soirées stylées.',
@@ -49,7 +49,7 @@ export const cocktails: Cocktail[] = [
   },
   {
     imageUrl:
-      'https://www.cocktail.fr/wp-content/uploads/2017/05/mai-tai.jpg.webp',
+      'https://www.liquor.com/thmb/uTblUjksvlksdaq8T1ut3LPar7o=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/mai-tai-1200x628-fb-eeb8f3f2f6014ccca3f238d534c61b97.jpg',
     name: 'Mai Tai',
     description:
       'Le Mai Tai est un cocktail exotique et puissant aux saveurs de rhum, d’agrumes et d’amandes, qui évoque les plages paradisiaques de Polynésie.',
@@ -63,7 +63,7 @@ export const cocktails: Cocktail[] = [
   },
   {
     imageUrl:
-      'https://www.cocktail.fr/wp-content/uploads/2017/05/tequila-sunrise.jpg.webp',
+      'https://cocktailand.fr/media/cache/resolve/upscale_4x/images/default/2024/06/17/66707c101d80e.jpg',
     name: 'Tequila Sunrise',
     description:
       'Spectaculaire et fruité, le Tequila Sunrise doit son nom à ses couleurs flamboyantes rappelant un lever de soleil, alliant tequila, jus d’orange et grenadine.',
@@ -72,7 +72,7 @@ export const cocktails: Cocktail[] = [
 
   {
     imageUrl:
-      'https://www.cocktail.fr/wp-content/uploads/2017/05/mojito-fraise.jpg.webp',
+      'https://resize.prod.femina.ladmedia.fr/rblr/1200,806/img/var/2023-06/1-mojito-fraise.jpg',
     name: 'Mojito Fraise',
     description:
       'Variante fruitée du Mojito classique, ce cocktail ajoute des fraises fraîches pour une touche sucrée et colorée, idéale pour les amateurs de douceur estivale.',
@@ -87,7 +87,7 @@ export const cocktails: Cocktail[] = [
   },
   {
     imageUrl:
-      'https://www.cocktail.fr/wp-content/uploads/2017/05/blue-lagoon.jpg.webp',
+      'https://www.artofdrink.com/wp-content/uploads/2010/08/blue-lagoon-cocktail.jpg',
     name: 'Blue Lagoon',
     description:
       'Avec sa couleur bleue éclatante et ses saveurs acidulées, le Blue Lagoon est un cocktail visuellement spectaculaire à base de vodka, curaçao bleu et citron.',
