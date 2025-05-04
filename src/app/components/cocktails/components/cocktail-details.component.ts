@@ -20,7 +20,7 @@ import { Cocktail } from 'app/partage/interfaces';
     }`,
 })
 export class CocktailDetailsComponent {
-  cocktail: Cocktail = {
+  cocktail = {
     imageUrl:
       'https://www.cocktail.fr/wp-content/uploads/2017/05/cocktail.fr-44155-1-1013x675.jpg.webp',
     name: 'Mojito',
