@@ -18,6 +18,7 @@ import { HeaderMenuComponent } from './components/header-menu.component';
   `,
   styles: `
     :host {
+      position: relative;
       display: flex;
       flex-direction: row;
       background-color: var(--primary);
