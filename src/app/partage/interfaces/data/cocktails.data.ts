@@ -1,6 +1,6 @@
 import { Cocktail } from 'app/partage/interfaces/cocktails.interface';
 
-export const cocktails: Cocktail[] = [
+export const cocktails = [
   {
     imageUrl:
       'https://www.cocktail.fr/wp-content/uploads/2017/05/cocktail.fr-44155-1-1013x675.jpg.webp',

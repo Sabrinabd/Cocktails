@@ -3,6 +3,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer.component';
 
 import { CocktailsComponent } from './components/cocktails/cocktails.component';
+//import { seedData } from './partage/interfaces/data/seed';
 
 @Component({
   selector: 'app-root',
@@ -23,5 +24,7 @@ import { CocktailsComponent } from './components/cocktails/cocktails.component';
   ],
 })
 export class AppComponent {
-  title = 'cocktails';
+  constructor() {
+    //seedData();
+  }
 }
