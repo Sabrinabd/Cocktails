@@ -1,3 +1,4 @@
+import { CartService } from './../../partage/services/cart.service';
 import {
   Component,
   computed,
@@ -23,7 +24,12 @@ import { CocktailsService } from 'app/partage/services/cocktails.service';
       class="w-50 xs-w-100 card"
     />
     @let sc= selectedCocktail(); @if(sc) {
-    <app-cocktail-details [cocktail]="sc" class="w-50 xs-w-100 card" />
+    <app-cocktail-details
+      (likeCocktail)="likecocktail($event)"
+      (unlikeCocktail)="unlikeCocktail($event)"
+      [cocktail]="sc"
+      class="w-50 xs-w-100 card"
+    />
     }
   `,
 
@@ -40,6 +46,7 @@ import { CocktailsService } from 'app/partage/services/cocktails.service';
 })
 export class CocktailsComponent {
   cocktailsService = inject(CocktailsService);
+  CartService = inject(CartService);
   cocktails = computed(
     () => this.cocktailsService.cocktailsResource.value() || []
   );
@@ -47,4 +54,19 @@ export class CocktailsComponent {
   selectedCocktail = computed(() =>
     this.cocktails().find(({ _id }) => _id === this.selectedCocktailId())
   );
+
+  selectedCocktailLiked = computed(() => {
+    const selectedCocktailId = this.selectedCocktailId();
+    return (
+      selectedCocktailId && this.likedCocktailIds().includes(selectedCocktailId)
+    );
+  });
+
+  likedCocktailIds = computed(() => this.CartService.likedCocktailIds());
+  likecocktail = (cocktailId: string) => {
+    this.CartService.likeCocktail(cocktailId);
+  };
+  unlikeCocktail = (cocktailId: string) => {
+    this.CartService.unlikeCocktail(cocktailId);
+  };
 }
