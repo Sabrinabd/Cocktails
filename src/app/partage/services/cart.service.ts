@@ -5,7 +5,6 @@ import { Injectable, signal } from '@angular/core';
 })
 export class CartService {
   likedCocktailIds = signal<string[]>([]);
-  constructor() {}
 
   likeCocktail(cocktailId: string) {
     this.likedCocktailIds.update((likedCocktails) => [

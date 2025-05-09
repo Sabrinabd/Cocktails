@@ -2,9 +2,11 @@ import {
   Component,
   computed,
   input,
-  model,
   output,
   signal,
+  viewChild,
+  ElementRef,
+  model,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Cocktail } from 'app/partage/interfaces';
@@ -14,12 +16,12 @@ import { Cocktail } from 'app/partage/interfaces';
   imports: [FormsModule],
   template: `
     <h2 class="mb-20">Liste des cocktails</h2>
-
     <input
       [(ngModel)]="filter"
       type="text"
-      class=" mb-20 w-100"
-      placeholder="Rechercher un cocktail"
+      #search
+      class="mb-20 w-100"
+      placeholder="Chercher un cocktail"
     />
     <ul class="mb-20">
       @for (cocktail of filteredCocktails(); track cocktail.name) { @let active
@@ -42,9 +44,13 @@ import { Cocktail } from 'app/partage/interfaces';
       background-color: var(--light);
       transition: all 0.4s;
     }
+    host: {
+      (window:keydown): 'keyboardInteraction($event)',
+    }
   `,
 })
 export class CocktailsListComponent {
+  search = viewChild<ElementRef<HTMLInputElement>>('search');
   filter = signal('');
   cocktails = input<Cocktail[]>();
   filteredCocktails = computed(() =>
@@ -52,7 +58,32 @@ export class CocktailsListComponent {
       name.toLowerCase().includes(this.filter().toLowerCase())
     )
   );
+  selectedCocktailId = model<string | null>();
 
-  selectCocktailId = output<string>();
-  selectedCocktailId = model<string | null>(null);
+  likedCocktailIds = input.required<string[]>();
+  likecocktail = output<string>();
+  unlikecocktail = output<string>();
+
+  keyboardInteraction({ key }: KeyboardEvent) {
+    switch (key) {
+      case 'Escape': {
+        this.selectedCocktailId.set(null);
+        break;
+      }
+      case 'Enter': {
+        const selectedCocktailId = this.selectedCocktailId();
+        if (selectedCocktailId) {
+          if (this.likedCocktailIds().includes(selectedCocktailId)) {
+            this.unlikecocktail.emit(selectedCocktailId);
+          } else {
+            this.likecocktail.emit(selectedCocktailId);
+          }
+        }
+        break;
+      }
+      default: {
+        this.search()?.nativeElement.focus();
+      }
+    }
+  }
 }
