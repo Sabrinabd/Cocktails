@@ -3,6 +3,7 @@ import { CocktailsListComponent } from './components/cocktails-list.component';
 import { CocktailDetailsComponent } from './components/cocktail-details.component';
 import { CocktailsService } from 'app/partage/services/cocktails.service';
 import { CartService } from 'app/partage/services/cart.service';
+import { Cocktail } from 'app/partage/interfaces';
 
 @Component({
   selector: 'app-cocktails',
@@ -28,6 +29,7 @@ import { CartService } from 'app/partage/services/cart.service';
   `,
   styles: `
     :host {
+      flex:1 1 auto;
       display: flex;
       gap:24px;
       padding: 24px;

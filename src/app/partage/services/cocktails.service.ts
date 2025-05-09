@@ -5,7 +5,7 @@ import { Cocktail } from '../interfaces';
   providedIn: 'root',
 })
 export class CocktailsService {
-  BASE_URL = 'https://restapi.fr/api/acocktails';
+  BASE_URL = 'https://restapi.fr/api/bcocktails';
 
   cocktailsResource = resource({
     loader: async (): Promise<Cocktail[]> =>
