@@ -1,12 +1,12 @@
 import {
   Component,
   computed,
+  ElementRef,
   input,
+  model,
   output,
   signal,
   viewChild,
-  ElementRef,
-  model,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Cocktail } from 'app/partage/interfaces';
@@ -18,21 +18,27 @@ import { Cocktail } from 'app/partage/interfaces';
     <h2 class="mb-20">Liste des cocktails</h2>
     <input
       [(ngModel)]="filter"
-      type="text"
       #search
+      type="text"
       class="mb-20 w-100"
       placeholder="Chercher un cocktail"
     />
     <ul class="mb-20">
-      @for (cocktail of filteredCocktails(); track cocktail.name) { @let active
-      = cocktail._id === selectedCocktailId();
+      @let likedIds = likedCocktailIds(); @for (cocktail of filteredCocktails();
+      track cocktail.name) { @let active = cocktail._id ===
+      selectedCocktailId();
       <li
         [class.active-item]="active"
         [class.text-primary]="active"
-        (click)="selectedCocktailId.set(cocktail._id)"
+        (click)="selectCocktail(cocktail._id)"
         class="px-12 py-6 my-2 radius"
       >
-        <h3>{{ cocktail.name }}</h3>
+        <h3 class="flex">
+          <span class="flex-auto">{{ cocktail.name }}</span>
+          @if (likedIds.includes(cocktail._id)) {
+          <span> &#10084;</span>
+          }
+        </h3>
       </li>
       }
     </ul>
@@ -44,10 +50,10 @@ import { Cocktail } from 'app/partage/interfaces';
       background-color: var(--light);
       transition: all 0.4s;
     }
-    host: {
-      (window:keydown): 'keyboardInteraction($event)',
-    }
   `,
+  host: {
+    '(window:keydown)': 'keyboardInteraction($event)',
+  },
 })
 export class CocktailsListComponent {
   search = viewChild<ElementRef<HTMLInputElement>>('search');
@@ -59,31 +65,60 @@ export class CocktailsListComponent {
     )
   );
   selectedCocktailId = model<string | null>();
-
   likedCocktailIds = input.required<string[]>();
   likecocktail = output<string>();
   unlikecocktail = output<string>();
 
+  selectCocktail(cocktailId: string) {
+    this.selectedCocktailId.set(cocktailId);
+  }
+
+  navigateCocktails(direction: 'up' | 'down') {
+    const cocktails = this.cocktails();
+    if (!cocktails?.length) return;
+
+    let currentIndex = cocktails.findIndex(
+      ({ _id }) => _id === this.selectedCocktailId()
+    );
+
+    // si aucun cocktail n'est sélectionné, on sélectionne le premier ou le dernier
+    // sinon, on se déplace d'un cran vers le haut ou vers le bas
+    if (currentIndex === -1) {
+      currentIndex = direction === 'down' ? 0 : cocktails.length - 1;
+    } else {
+      currentIndex =
+        direction === 'down'
+          ? (currentIndex + 1) % cocktails.length
+          : (currentIndex - 1 + cocktails.length) % cocktails.length;
+    }
+
+    this.selectedCocktailId.set(cocktails[currentIndex]._id);
+  }
+
   keyboardInteraction({ key }: KeyboardEvent) {
     switch (key) {
-      case 'Escape': {
+      case 'Escape':
         this.selectedCocktailId.set(null);
         break;
-      }
       case 'Enter': {
         const selectedCocktailId = this.selectedCocktailId();
         if (selectedCocktailId) {
-          if (this.likedCocktailIds().includes(selectedCocktailId)) {
-            this.unlikecocktail.emit(selectedCocktailId);
-          } else {
-            this.likecocktail.emit(selectedCocktailId);
-          }
+          const isLiked = this.likedCocktailIds().includes(selectedCocktailId);
+          isLiked
+            ? this.unlikecocktail.emit(selectedCocktailId)
+            : this.likecocktail.emit(selectedCocktailId);
         }
         break;
       }
-      default: {
+      case 'ArrowUp':
+        this.navigateCocktails('up');
+        break;
+      case 'ArrowDown':
+        this.navigateCocktails('down');
+        break;
+      default:
         this.search()?.nativeElement.focus();
-      }
+        break;
     }
   }
 }
