@@ -50,8 +50,10 @@ body {
   font-style: italic;
   margin-bottom: 1.25rem;
 }
-input {
+input,
+textarea {
   border: var(--border);
+  font-family: var(--font-family);
   border-radius: 6px;
   padding: 12px;
 }

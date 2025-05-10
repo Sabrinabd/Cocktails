@@ -1,4 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Cocktail } from 'app/partage/interfaces';
 import {
   FormBuilder,
   Validators,
@@ -6,12 +16,19 @@ import {
   FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { CocktailForm } from 'app/partage/interfaces';
+import { CocktailsService } from 'app/partage/services/cocktails.service';
 
 @Component({
   selector: 'app-admin-cocktails-form',
   imports: [ReactiveFormsModule],
   template: `
+    @if(cocktailId) {
+    <h3 class="mb-20">Modification d'un cocktail</h3>
+    }@else {
     <h3 class="mb-20">Création d'un cocktail</h3>
+    }
+
     <form [formGroup]="cocktailForm" (submit)="submit()">
       <div class="flex flex-col gap-12 mb-10">
         <label for="name">Nom du cocktail</label>
@@ -22,7 +39,7 @@ import {
       </div>
 
       <div class="flex flex-col gap-12 mb-10">
-        <label for="imageUrl">Nom du cocktail</label>
+        <label for="imageUrl">URL de l'image</label>
         <input formControlName="imageUrl" id="imageUrl" type="text" />
       </div>
 
@@ -37,12 +54,16 @@ import {
 
       <div class="flex align-items-center gap-12 mb-10">
         <label class="flex-auto">Ingrédients</label>
-        <button (click)="addIngredient()" class="btn btn-primary ">
+        <button
+          type="button"
+          (click)="addIngredient()"
+          class="btn btn-primary "
+        >
           Ajouter
         </button>
       </div>
-      <ul>
-        @for ( ingredient of ingredientsControl.controls; track $index) {
+      <ul formArrayName="ingredients">
+        @for ( ingredient of ingredientsControl.controls;track $index) {
         <li class="flex align-items-center gap-12 mb-10">
           <input class="flex-auto" [formControlName]="$index" type="text" />
           <button (click)="deleteIngredient($index)" class="btn btn-danger">
@@ -53,7 +74,10 @@ import {
       </ul>
 
       <div>
-        <button [disabled]="cocktailForm.invalid" class="btn btn-primary">
+        <button
+          [disabled]="cocktailForm.invalid || this.isLoading()"
+          class="btn btn-primary"
+        >
           Sauvegarder
         </button>
       </div>
@@ -64,12 +88,41 @@ import {
 })
 export class AdminCocktailsFormComponent {
   private fb = inject(FormBuilder);
+  private cocktailService = inject(CocktailsService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  cocktails = computed(() => this.cocktailService.cocktailsResource.value());
+  cocktailId = toSignal(this.activatedRoute.params)()!['cocktailId'];
+
+  isLoading = signal(false);
 
   cocktailForm = this.fb.group({
     name: ['', Validators.required],
     imageUrl: [''],
     description: [''],
     ingredients: this.fb.array([]),
+  });
+
+  initCocktailFormEffect = effect(() => {
+    if (this.cocktailId) {
+      const cocktails = this.cocktails();
+      if (cocktails) {
+        const { name, imageUrl, description, ingredients } = cocktails.find(
+          ({ _id }) => this.cocktailId === _id
+        )!;
+        this.cocktailForm.patchValue({
+          name,
+          imageUrl,
+          description,
+        });
+        ingredients.forEach((i) =>
+          this.ingredientsControl.push(this.fb.control(i))
+        );
+        this.initCocktailFormEffect.destroy();
+      }
+    } else {
+      this.initCocktailFormEffect.destroy();
+    }
   });
 
   get ingredientsControl() {
@@ -88,7 +141,23 @@ export class AdminCocktailsFormComponent {
     this.ingredientsControl.removeAt(index);
   }
 
-  submit() {
-    console.log(this.cocktailForm.value);
+  async submit() {
+    this.isLoading.set(true);
+    try {
+      if (this.cocktailId) {
+        await this.cocktailService.editCocktail({
+          ...this.cocktailForm.getRawValue(),
+          _id: this.cocktailId,
+        } as Cocktail);
+      } else {
+        await this.cocktailService.createCocktail(
+          this.cocktailForm.getRawValue() as CocktailForm
+        );
+      }
+      this.router.navigate(['/admin/cocktails/list']);
+    } catch (e) {
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }
