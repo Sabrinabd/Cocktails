@@ -64,3 +64,12 @@ input {
   background-color: var(--danger);
   color: white;
 }
+.error {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
