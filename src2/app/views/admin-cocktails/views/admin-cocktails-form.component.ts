@@ -42,15 +42,6 @@ import { CocktailsService } from 'app/partage/services/cocktails.service';
         <label for="imageUrl">URL de l'image</label>
         <input formControlName="imageUrl" id="imageUrl" type="text" />
       </div>
-      
-      <div class="flex flex-col gap-12 mb-10">
-        <label for="price">Prix du cocktail</label>
-        <input formControlName="price" id="price" type="number" />
-        @if (priceControl.errors?.['min'] && priceControl.touched) {
-        <p class="error">Le prix doit être supérieur à 0</p>
-        }
-      </div>
-    
 
       <div class="flex flex-col gap-12 mb-10">
         <label for="description">Description du cocktail</label>
@@ -108,7 +99,6 @@ export class AdminCocktailsFormComponent {
   cocktailForm = this.fb.group({
     name: ['', Validators.required],
     imageUrl: [''],
-    price: [0, Validators.min(1)],
     description: [''],
     ingredients: this.fb.array([]),
   });
@@ -117,14 +107,13 @@ export class AdminCocktailsFormComponent {
     if (this.cocktailId) {
       const cocktails = this.cocktails();
       if (cocktails) {
-        const { name, imageUrl, description, price,ingredients } = cocktails.find(
+        const { name, imageUrl, description, ingredients } = cocktails.find(
           ({ _id }) => this.cocktailId === _id
         )!;
         this.cocktailForm.patchValue({
           name,
           imageUrl,
           description,
-          price,
         });
         ingredients.forEach((i) =>
           this.ingredientsControl.push(this.fb.control(i))
@@ -142,9 +131,6 @@ export class AdminCocktailsFormComponent {
 
   get nameControl() {
     return this.cocktailForm.get('name') as FormControl;
-  }
-  get priceControl() {
-    return this.cocktailForm.get('price') as FormControl;
   }
 
   addIngredient() {

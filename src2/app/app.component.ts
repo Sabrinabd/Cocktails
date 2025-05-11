@@ -3,6 +3,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer.component';
 import { RouterOutlet } from '@angular/router';
 //import { seedData } from './partage/interfaces/data/seed';
+
 @Component({
   selector: 'app-root',
   imports: [HeaderComponent, FooterComponent, RouterOutlet],
@@ -23,6 +24,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   constructor() {
-  //seedData();
+    //seedData();
   }
 }

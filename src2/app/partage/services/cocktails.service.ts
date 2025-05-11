@@ -1,7 +1,7 @@
 import { Injectable, resource } from '@angular/core';
 import { Cocktail, CocktailForm } from '../interfaces';
 
-const BASE_URL = 'https://restapi.fr/api/acocktails';
+const BASE_URL = 'https://restapi.fr/api/bcocktails';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class CocktailsService {
   }
 
   async createCocktail(cocktailForm: CocktailForm) {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(`${BASE_URL}?delay=3`, {
       method: 'POST',
       body: JSON.stringify(cocktailForm),
       headers: {

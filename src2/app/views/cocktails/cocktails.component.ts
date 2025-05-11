@@ -21,7 +21,7 @@ import { Cocktail } from 'app/partage/interfaces';
     <app-cocktail-details
       (likecocktail)="likeCocktail($event)"
       (unlikecocktail)="unlikeCocktail($event)"
-      (addCocktail)="addCocktail($event)"
+      (addIngredients)="addIngredients($event)"
       [cocktail]="sc"
       [isLiked]="selectedCocktailLiked()"
       class="w-50 xs-w-100 card"
@@ -67,7 +67,7 @@ export class CocktailsComponent {
   unlikeCocktail(cocktailId: string) {
     this.cartService.unlikeCocktail(cocktailId);
   }
-  addCocktail(cocktail: Cocktail) {
-    this.cartService.addcocktail([cocktail]);
+  addIngredients(ingredients: string[]) {
+    this.cartService.addIngredients(ingredients);
   }
 }

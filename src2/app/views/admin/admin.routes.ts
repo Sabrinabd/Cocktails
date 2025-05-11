@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
-import { AdminUsersComponent } from '../admin-users/admin-users.component';
+import { AdminUsersComponent } from '../../views/admin-users/admin-users.component';
+import { AdminCocktailsComponent } from '../../views/admin-cocktails/admin-cocktails.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,7 @@ export const routes: Routes = [
       {
         path: 'cocktails',
         loadChildren: async () =>
-          (await import('../admin-cocktails/admin-cocktails-routes'))
+          (await import('../../views/admin-cocktails/admin-cocktails-routes'))
             .routes,
       },
       {

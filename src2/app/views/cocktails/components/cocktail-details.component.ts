@@ -10,7 +10,6 @@ import { Cocktail } from 'app/partage/interfaces';
       <img class="mb-20" [src]="c.imageUrl" />
     </div>
     <h3 class="mb-20">{{ c.name }}</h3>
-    <p class="mb-20">Prix : {{ c.price  }} &euro;</p>
     <p class="mb-20">{{ c.description }}</p>
     <ul class="mb-20">
       @for (ingredient of c.ingredients;track $index) {
@@ -19,7 +18,7 @@ import { Cocktail } from 'app/partage/interfaces';
     </ul>
     <div class="flex">
       <button
-        (click)="addCocktail.emit(c)"
+        (click)="addIngredients.emit(c.ingredients)"
         class="btn btn-primary"
       >
         Ajouter au panier
@@ -60,5 +59,5 @@ export class CocktailDetailsComponent {
   isLiked = input.required<boolean>();
   likecocktail = output<string>();
   unlikecocktail = output<string>();
-  addCocktail = output<Cocktail>();
+  addIngredients = output<string[]>();
 }

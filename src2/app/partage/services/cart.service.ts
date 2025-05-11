@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { Cocktail } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +6,7 @@ import { Cocktail } from '../interfaces';
 export class CartService {
   likedCocktailIds = signal<string[]>([]);
 
-  cocktails = signal<Cocktail[]>([]);
+  ingredients = signal<string[]>([]);
 
   likeCocktail(cocktailId: string) {
     this.likedCocktailIds.update((likedCocktails) => [
@@ -20,12 +19,7 @@ export class CartService {
       likedCocktails.filter((id) => id !== cocktailId)
     );
   }
-  addcocktail(cocktails: Cocktail[]) {
-    this.cocktails.update((i) => [...i, ...cocktails]);
-  }
-  clearCart() {
-  
-    this.cocktails.set([]);
-    console.log('Panier vidé');
+  addIngredients(ingredients: string[]) {
+    this.ingredients.update((i) => [...i, ...ingredients]);
   }
 }
